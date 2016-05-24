@@ -10,7 +10,7 @@
 
     function setup(ctx) {
         ctx.canvas.width = window.innerWidth;
-        ctx.canvas.height = window.innerHeight * .6;
+        ctx.canvas.height = window.innerHeight;
     }
 
     function draw(ctx, state, step) {

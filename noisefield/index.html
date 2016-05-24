@@ -2,24 +2,64 @@
 <html>
     <head>
         <title>noisefield</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <style type="text/css">
+            * {
+                box-sizing: border-box;
+            }
             body {
                 backgroun-color: #fff;
                 margin: 0;
                 padding: 0;
                 font-family: menlo, consolas, monospace;
                 color: #333;
+                font-size: 12px;
+            }
+            canvas {
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: 0;
+            }
+            section {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                z-index: 1;
+                background-color: rgba(255, 255, 255, 1);
+                padding: 1rem;
+                margin: 1rem;
+                max-width: 30rem;
             }
             h1 {
-                font-size: 1rem;
                 font-weight: normal;
-                text-align: center;
-                margin: 2rem 0;
+                color: #000;
+                margin: 0;
+                padding: 0;
+            }
+            p:last-child {
+                margin-bottom: 0;
+            }
+            a {
+                color: #000;
+                background-color: yellow;
+                text-decoration: none;
+            }
+            a:hover {
+                color: #fff;
+                background-color: #ff0080;
             }
         </style>
     </head>
     <body>
-        <h1>noisefield</h1>
+        <section>
+            <h1>noisefield</h1>
+            <p>Just playing around with noise</a>.</p>
+            <p>All of the magic comes from Sean McCullough's <a href="https://gist.github.com/banksean/304522">JavaScript port</a>
+            of Stefan Gustavson's <a href="http://staffwww.itn.liu.se/~stegu/simplexnoise/simplexnoise.pdf">Java implementation</a>
+            of Ken Perlin's <a href="https://en.wikipedia.org/wiki/Ken_Perlin">Simplex noise algorithm</a>.</p>
+            <p>&rarr; <a href="https://github.com/mccutchen/sketches/tree/master/noisefield">view source</a>
+        </section>
         <script type="text/javascript" src="../lib/muybridge.js"></script>
         <script type="text/javascript" src="simplex.js"></script>
         <script type="text/javascript" src="noisefield.js"></script>
