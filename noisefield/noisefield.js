@@ -2,47 +2,53 @@
     var simplex = new SimplexNoise();
 
     function color(n, step) {
-        var r = ~~(n * 255);
+        var r = (n * 255)|0;
         var g = 127;
         var b = 127;
         return 'rgb(' + r + ',' + g + ',' + b + ')';
     }
 
     function setup(ctx) {
-        ctx.canvas.width = window.innerWidth;
-        ctx.canvas.height = window.innerHeight;
+        var w = window.innerWidth;
+        var h = window.innerHeight;
+        var scale = window.devicePixelRatio > 1 ? 0.02 : 0.0075;
+        var offset = Math.max(w, h) * scale;
+        var size = offset / 2;
+
+        ctx.canvas.width = w;
+        ctx.canvas.height = h;
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+        ctx.lineWidth = 1;
+
+        return {
+            w: w,
+            h: h,
+            offset: offset,
+            size: size,
+        }
     }
 
     function draw(ctx, state, step) {
-        var w = ctx.canvas.width;
-        var h = ctx.canvas.height;
+        var w = state.w;
+        var h = state.h;
+        var offset = state.offset;
+        var size = state.size;
+        var x, y, n, a, rise, run;
 
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
         ctx.fillRect(0, 0, w, h);
-
-        ctx.lineWidth = 1;
         ctx.beginPath();
-
-        var offset = w * 0.0075;
-        var size = offset / 2;
-        for (var y = size; y < h - size; y += offset) {
-            for (var x = size; x < w - size; x += offset) {
-                var n = Math.abs(simplex.noise3d(x/1000, y/1000, step/1000));
-                var v = vector(n * 360, size);
+        for (y = size; y < h - size; y += offset) {
+            for (x = size; x < w - size; x += offset) {
+                n = Math.abs(simplex.noise3d(x/1000, y/1000, step/1000));
+                a = n * 360;
+                rise = size * Math.sin(a);
+                run = size * Math.cos(a);
                 ctx.strokeStyle = color(n, step);
                 ctx.moveTo(x, y);
-                ctx.lineTo(x + v.x, y + v.y);
+                ctx.lineTo(x + run, y + rise);
             }
         }
-        ctx.closePath();
         ctx.stroke();
-    }
-
-    function vector(angle, magnitude) {
-        return {
-            x: magnitude * Math.cos(angle),
-            y: magnitude * Math.sin(angle),
-        };
     }
 
     Muybridge.run({
