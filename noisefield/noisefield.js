@@ -1,7 +1,7 @@
 (function() {
     var simplex = new SimplexNoise();
 
-    function color(n, step) {
+    function color(n) {
         var r = (n * 255)|0;
         var g = 127;
         var b = 127;
@@ -43,7 +43,7 @@
                 a = n * 360;
                 rise = size * Math.sin(a);
                 run = size * Math.cos(a);
-                ctx.strokeStyle = color(n, step);
+                ctx.strokeStyle = color(n);
                 ctx.moveTo(x, y);
                 ctx.lineTo(x + run, y + rise);
             }
