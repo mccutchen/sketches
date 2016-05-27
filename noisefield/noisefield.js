@@ -1,4 +1,6 @@
 (function() {
+    'use strict';
+
     var simplex = new SimplexNoise();
 
     function color(n) {
