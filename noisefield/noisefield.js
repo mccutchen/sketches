@@ -10,21 +10,18 @@
         return 'rgb(' + r + ',' + g + ',' + b + ')';
     }
 
-    function setup(ctx) {
-        var w = window.innerWidth;
-        var h = window.innerHeight;
-        var scale = window.devicePixelRatio > 1 ? 0.02 : 0.0075;
-        var offset = Math.max(w, h) * scale;
+    function setupCanvas(canvas, ctx) {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+
+    function setupState(width, height) {
+        var scale = window.devicePixelRatio > 1 ? 0.015 : 0.0075;
+        var offset = Math.max(width, height) * scale;
         var size = offset / 2;
-
-        ctx.canvas.width = w;
-        ctx.canvas.height = h;
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
-        ctx.lineWidth = 1;
-
         return {
-            w: w,
-            h: h,
+            w: width,
+            h: height,
             offset: offset,
             size: size,
         }
@@ -37,7 +34,10 @@
         var size = state.size;
         var x, y, n, a, rise, run;
 
+        ctx.lineWidth = 1;
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
         ctx.fillRect(0, 0, w, h);
+
         ctx.beginPath();
         for (y = size; y < h - size; y += offset) {
             for (x = size; x < w - size; x += offset) {
@@ -55,6 +55,7 @@
 
     Muybridge.run({
         draw: draw,
-        setup: setup,
+        setup: setupState,
+        setupCanvas: setupCanvas,
     });
 })();
