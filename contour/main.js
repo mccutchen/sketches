@@ -8,55 +8,65 @@
         canvas.height = window.innerHeight;
     }
 
-    function setupState(width, height) {
-        var scale = window.devicePixelRatio > 1 ? 0.015 : 0.0075;
-        var offset = Math.max(width, height) * scale;
-        var segmentSize = offset / 2;
-        var lineCount = height / segmentSize;
+    function noise(x, y) {
+        return simplex.noise(x/100, y/10) * 10;
+    }
 
-        var lastPoints = [];
-        for (var i = 0; i < lineCount; i++) {
-            lastPoints[i] = {x: 0, y: 0};
+    function setupState(width, height) {
+        // Pick the size of our line segment based on device resolution and
+        // orientation
+        var scale = window.devicePixelRatio > 1 ? 0.015 : 0.0075;
+        var segmentSize = (Math.max(width, height) * scale) / 2;
+
+        // We'll render a sequence of lines where each line is made up of
+        // segments
+        var lineCount = height / segmentSize;
+        var segmentCount = width / segmentSize + 1;
+
+        // Initialize our lines, which are just arrays of y offsets
+        var lines = [];
+        var line, x, y;
+        for (y = 0; y < lineCount; y++) {
+            line = []
+            for (x = 0; x < segmentCount; x++) {
+                line.push(noise(x, y));
+            }
+            lines.push(line);
         }
+
         return {
             w: width,
             h: height,
             segmentSize: segmentSize,
-            lastPoints: lastPoints,
+            lines: lines,
         }
     }
 
     function draw(ctx, state, step) {
-        var w = state.w;
-        var h = state.h;
-        var segmentSize = state.segmentSize;
+        var {w, h, segmentSize, lines} = state;
+        var line, x, y, offset, nextOffset;
 
-        if (step * segmentSize > w + segmentSize) {
-            return state;
-        }
+        ctx.fillStyle = '#E8DDCB';
+        ctx.fillRect(0, 0, w, h);
 
         ctx.strokeStyle = '#CDB380';
         ctx.lineWidth = 2;
+
         ctx.beginPath();
+        for (y = 0; y < lines.length; y++) {
+            line = lines[y];
+            for (x = 0; x < line.length - 1; x++) {
+                offset = line[x]
+                nextOffset = line[x+1];
+                ctx.moveTo(x * segmentSize, y * segmentSize + offset);
+                ctx.lineTo((x + 1) * segmentSize, y * segmentSize + nextOffset);
+            }
 
-        var lastPoints = state.lastPoints;
-        var nextPoints = [];
-        for (var i = 0; i < lastPoints.length; i++) {
-            var lastPoint = lastPoints[i];
-            var px = lastPoint.x;
-            var py = lastPoint.y;
-            var offset = simplex.noise3d(px/100, py/100, step/100) * 5;
-            var nx = step * segmentSize;
-            var ny = i * segmentSize + offset;
-
-            ctx.moveTo(px, py);
-            ctx.lineTo(nx, ny);
-
-            nextPoints.push({x: nx, y: ny});
+            line.shift();
+            line.push(noise(x + step, y));
         }
         ctx.stroke();
 
-        state.lastPoints = nextPoints;
         return state;
     }
 
