@@ -35,6 +35,7 @@
             return state;
         }
 
+        ctx.strokeStyle = '#CDB380';
         ctx.lineWidth = 2;
         ctx.beginPath();
 
