@@ -46,10 +46,10 @@
         var {w, h, segmentSize, lines} = state;
         var line, x, y, offset, nextOffset;
 
-        ctx.fillStyle = '#E8DDCB';
+        ctx.fillStyle = '#FF3D7F';
         ctx.fillRect(0, 0, w, h);
 
-        ctx.strokeStyle = '#CDB380';
+        ctx.strokeStyle = 'rgba(255,255,255,0.25)';
         ctx.lineWidth = 2;
 
         ctx.beginPath();
