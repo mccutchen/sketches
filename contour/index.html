@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>contour</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style type="text/css">
+            * {
+                box-sizing: border-box;
+            }
+            body {
+                background-color: #fff;
+                margin: 0;
+                padding: 0;
+                font-family: menlo, consolas, monospace;
+                color: #333;
+                font-size: 12px;
+            }
+            canvas {
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: 0;
+            }
+            section {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                z-index: 1;
+                background-color: rgba(255, 255, 255, 1);
+                padding: 1rem;
+                margin: 1rem;
+                max-width: 30rem;
+            }
+            h1 {
+                font-weight: normal;
+                color: #000;
+                margin: 0;
+                padding: 0;
+            }
+            p:last-child {
+                margin-bottom: 0;
+            }
+            a {
+                color: #000;
+                background-color: yellow;
+                text-decoration: none;
+            }
+            a:hover {
+                color: #fff;
+                background-color: #ff0080;
+            }
+        </style>
+    </head>
+    <body>
+        <section>
+            <h1>contour</h1>
+            <p>&rarr; <a href="https://github.com/mccutchen/sketches/tree/master/contour">view source</a></p>
+        </section>
+        <script type="text/javascript" src="../lib/muybridge.js"></script>
+        <script type="text/javascript" src="../lib/simplex.js"></script>
+        <script type="text/javascript" src="main.js"></script>
+    </body>
+</html>
