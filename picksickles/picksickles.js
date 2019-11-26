@@ -1,19 +1,20 @@
-function setup(ctx) {
+function setupCanvas(canvas, ctx) {
     var img = document.getElementById('input'),
         w = img.width,
         h = img.height;
 
-    ctx.canvas.width = w;
-    ctx.canvas.height = h;
+    canvas.width = w;
+    canvas.height = h;
     ctx.drawImage(img, 0, 0);
+}
 
+function setupState(w, h, ctx) {
     return {
         particles: makeParticles(ctx),
         w: w,
         h: h
     };
 }
-
 
 function draw(ctx, state, step) {
     var particles = state.particles,
@@ -59,7 +60,8 @@ function makeParticles(ctx) {
 window.addEventListener('load', function() {
     Muybridge.run({
         draw: draw,
-        setup: setup,
+        setupCanvas: setupCanvas,
+        setup: setupState,
         canvas: document.getElementById('output')
     });
 });
